@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Mafia Lobby</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<style>
+body {
+    font-family: sans-serif;
+    direction: rtl;
+}
+#players {
+    font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+<h2>لیست بازیکنان</h2>
+<ul id="players"></ul>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+// اتصال به سرور
+const socket = io();
+
+// گرفتن نام از تلگرام
+const name = tg.initDataUnsafe?.user?.first_name || "بازیکن";
+
+// ارسال نام به سرور
+socket.emit("join", name);
+
+// بروزرسانی لیست بازیکنان
+socket.on("players", list => {
+    document.getElementById("players").innerHTML =
+        list.map(p => `<li>${p}</li>`).join("");
+});
+</script>
+
+</body>
+</html>
