@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: mafia-miniapp2
+    env: node
+    region: frankfurt
+    buildCommand: npm install
+    startCommand: npm start
