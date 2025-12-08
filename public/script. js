@@ -1,0 +1,19 @@
+const socket = io();
+
+function joinGame() {
+    const name = document.getElementById("nameInput").value.trim();
+    if (!name) return;
+
+    socket.emit("join", name);
+}
+
+socket.on("playersUpdate", (players) => {
+    const ul = document.getElementById("players");
+    ul.innerHTML = "";
+
+    players.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = p.name;
+        ul.appendChild(li);
+    });
+});
